@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ace.hotel.dao.base.HotelBaseMapper">
+
+
+    <insert id="insertHotel" useGeneratedKeys="true" keyProperty="hid">
+        INSERT INTO `t_hotel`
+        (
+        <trim suffixOverrides=",">
+            <if test="hid!=null">
+                `hid`,
+            </if>
+            <if test="hotelName!=null">
+                `hotel_name`,
+            </if>
+            <if test="address!=null">
+                `address`,
+            </if>
+            <if test="phone!=null">
+                `phone`,
+            </if>
+            <if test="score!=null">
+                `score`,
+            </if>
+            <if test="tags!=null">
+                `tags`,
+            </if>
+            <if test="description!=null">
+                `description`,
+            </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+            <if test="hid!=null">
+                #{hid},
+            </if>
+            <if test="hotelName!=null">
+                #{hotelName},
+            </if>
+            <if test="address!=null">
+                #{address},
+            </if>
+            <if test="phone!=null">
+                #{phone},
+            </if>
+            <if test="score!=null">
+                #{score},
+            </if>
+            <if test="tags!=null">
+                #{tags},
+            </if>
+            <if test="description!=null">
+                #{description},
+            </if>
+        </trim>
+        )
+    </insert>
+
+
+    <update id="updateHotel">
+        UPDATE `t_hotel`
+        SET
+        <trim suffixOverrides=",">
+            <if test="hotelName != null and hotelName!=''">
+                `hotel_name` = #{hotelName},
+            </if>
+            <if test="address != null and address!=''">
+                `address` = #{address},
+            </if>
+            <if test="phone != null and phone!=''">
+                `phone` = #{phone},
+            </if>
+            <if test="score != null">
+                `score` = #{score},
+            </if>
+            <if test="tags != null and tags!=''">
+                `tags` = #{tags},
+            </if>
+            <if test="description != null and description!=''">
+                `description` = #{description},
+            </if>
+        </trim>
+        WHERE
+        <trim suffixOverrides="and">
+            `hid` = #{hid} and
+        </trim>
+    </update>
+
+    <update id="update">
+        UPDATE `t_hotel`
+        SET
+        <trim suffixOverrides=",">
+            <if test="set.hotelName != null and set.hotelName!=''">
+                `hotel_name` = #{set.hotelName},
+            </if>
+            <if test="set.address != null and set.address!=''">
+                `address` = #{set.address},
+            </if>
+            <if test="set.phone != null and set.phone!=''">
+                `phone` = #{set.phone},
+            </if>
+            <if test="set.score != null">
+                `score` = #{set.score},
+            </if>
+            <if test="set.tags != null and set.tags!=''">
+                `tags` = #{set.tags},
+            </if>
+            <if test="set.description != null and set.description!=''">
+                `description` = #{set.description},
+            </if>
+        </trim>
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="where.hidList != null">
+                `hid` in
+                <foreach collection="where.hidList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.hidSt !=null">
+                `hid` >= #{where.hidSt} and
+            </if>
+            <if test="where.hidEd!=null">
+                `hid` &lt;= #{where.hidEd} and
+            </if>
+            <if test="where.hotelNameList != null">
+                `hotel_name` in
+                <foreach collection="where.hotelNameList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.fuzzyHotelName!=null and where.fuzzyHotelName.size()>0">
+                (
+                <foreach collection="where.fuzzyHotelName" separator="or" item="item">
+                    `Hotel_name` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.rightFuzzyHotelName!=null and where.rightFuzzyHotelName.size()>0">
+                (
+                <foreach collection="where.rightFuzzyHotelName" separator="or" item="item">
+                    `Hotel_name` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.addressList != null">
+                `address` in
+                <foreach collection="where.addressList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.fuzzyAddress!=null and where.fuzzyAddress.size()>0">
+                (
+                <foreach collection="where.fuzzyAddress" separator="or" item="item">
+                    `Address` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.rightFuzzyAddress!=null and where.rightFuzzyAddress.size()>0">
+                (
+                <foreach collection="where.rightFuzzyAddress" separator="or" item="item">
+                    `Address` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.phoneList != null">
+                `phone` in
+                <foreach collection="where.phoneList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.fuzzyPhone!=null and where.fuzzyPhone.size()>0">
+                (
+                <foreach collection="where.fuzzyPhone" separator="or" item="item">
+                    `Phone` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.rightFuzzyPhone!=null and where.rightFuzzyPhone.size()>0">
+                (
+                <foreach collection="where.rightFuzzyPhone" separator="or" item="item">
+                    `Phone` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.scoreList != null">
+                `score` in
+                <foreach collection="where.scoreList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.scoreSt !=null">
+                `score` >= #{where.scoreSt} and
+            </if>
+            <if test="where.scoreEd!=null">
+                `score` &lt;= #{where.scoreEd} and
+            </if>
+            <if test="where.tagsList != null">
+                `tags` in
+                <foreach collection="where.tagsList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.fuzzyTags!=null and where.fuzzyTags.size()>0">
+                (
+                <foreach collection="where.fuzzyTags" separator="or" item="item">
+                    `Tags` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.rightFuzzyTags!=null and where.rightFuzzyTags.size()>0">
+                (
+                <foreach collection="where.rightFuzzyTags" separator="or" item="item">
+                    `Tags` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.descriptionList != null">
+                `description` in
+                <foreach collection="where.descriptionList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.fuzzyDescription!=null and where.fuzzyDescription.size()>0">
+                (
+                <foreach collection="where.fuzzyDescription" separator="or" item="item">
+                    `Description` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.rightFuzzyDescription!=null and where.rightFuzzyDescription.size()>0">
+                (
+                <foreach collection="where.rightFuzzyDescription" separator="or" item="item">
+                    `Description` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+        </trim>
+    </update>
+
+
+    <resultMap type="com.ace.hotel.model.Hotel" id="HotelMap">
+        <result property="hid" column="hid"/>
+        <result property="hotelName" column="hotel_name"/>
+        <result property="address" column="address"/>
+        <result property="phone" column="phone"/>
+        <result property="score" column="score"/>
+        <result property="tags" column="tags"/>
+        <result property="description" column="description"/>
+    </resultMap>
+
+
+    <select id="queryHotel" resultMap="HotelMap">
+        select
+        <include refid="baseResult"></include>
+        from `t_hotel`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="hid != null">
+                `hid` = #{hid} and
+            </if>
+            <if test="hotelName != null and hotelName!=''">
+                `hotel_name` = #{hotelName} and
+            </if>
+            <if test="address != null and address!=''">
+                `address` = #{address} and
+            </if>
+            <if test="phone != null and phone!=''">
+                `phone` = #{phone} and
+            </if>
+            <if test="score != null">
+                `score` = #{score} and
+            </if>
+            <if test="tags != null and tags!=''">
+                `tags` = #{tags} and
+            </if>
+            <if test="description != null and description!=''">
+                `description` = #{description} and
+            </if>
+            <if test="(_parameter instanceof com.ace.hotel.model.Hotel$QueryBuilder) == true">
+                <if test="hidList != null">
+                    `hid` in
+                    <foreach collection="hidList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="hidSt !=null">
+                    `hid` >= #{hidSt} and
+                </if>
+                <if test="hidEd!=null">
+                    `hid` &lt;= #{hidEd} and
+                </if>
+                <if test="hotelNameList != null">
+                    `hotel_name` in
+                    <foreach collection="hotelNameList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyHotelName!=null and fuzzyHotelName.size()>0">
+                    (
+                    <foreach collection="fuzzyHotelName" separator="or" item="item">
+                        `Hotel_name` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyHotelName!=null and rightFuzzyHotelName.size()>0">
+                    (
+                    <foreach collection="rightFuzzyHotelName" separator="or" item="item">
+                        `Hotel_name` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="addressList != null">
+                    `address` in
+                    <foreach collection="addressList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyAddress!=null and fuzzyAddress.size()>0">
+                    (
+                    <foreach collection="fuzzyAddress" separator="or" item="item">
+                        `Address` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyAddress!=null and rightFuzzyAddress.size()>0">
+                    (
+                    <foreach collection="rightFuzzyAddress" separator="or" item="item">
+                        `Address` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="phoneList != null">
+                    `phone` in
+                    <foreach collection="phoneList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyPhone!=null and fuzzyPhone.size()>0">
+                    (
+                    <foreach collection="fuzzyPhone" separator="or" item="item">
+                        `Phone` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyPhone!=null and rightFuzzyPhone.size()>0">
+                    (
+                    <foreach collection="rightFuzzyPhone" separator="or" item="item">
+                        `Phone` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="scoreList != null">
+                    `score` in
+                    <foreach collection="scoreList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="scoreSt !=null">
+                    `score` >= #{scoreSt} and
+                </if>
+                <if test="scoreEd!=null">
+                    `score` &lt;= #{scoreEd} and
+                </if>
+                <if test="tagsList != null">
+                    `tags` in
+                    <foreach collection="tagsList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyTags!=null and fuzzyTags.size()>0">
+                    (
+                    <foreach collection="fuzzyTags" separator="or" item="item">
+                        `Tags` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyTags!=null and rightFuzzyTags.size()>0">
+                    (
+                    <foreach collection="rightFuzzyTags" separator="or" item="item">
+                        `Tags` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="descriptionList != null">
+                    `description` in
+                    <foreach collection="descriptionList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyDescription!=null and fuzzyDescription.size()>0">
+                    (
+                    <foreach collection="fuzzyDescription" separator="or" item="item">
+                        `Description` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyDescription!=null and rightFuzzyDescription.size()>0">
+                    (
+                    <foreach collection="rightFuzzyDescription" separator="or" item="item">
+                        `Description` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+    </select>
+
+    <select id="queryHotelLimit1" resultMap="HotelMap">
+        select
+        <include refid="baseResult"></include>
+        from `t_hotel`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="hid != null">
+                `hid` = #{hid} and
+            </if>
+            <if test="hotelName != null and hotelName!=''">
+                `hotel_name` = #{hotelName} and
+            </if>
+            <if test="address != null and address!=''">
+                `address` = #{address} and
+            </if>
+            <if test="phone != null and phone!=''">
+                `phone` = #{phone} and
+            </if>
+            <if test="score != null">
+                `score` = #{score} and
+            </if>
+            <if test="tags != null and tags!=''">
+                `tags` = #{tags} and
+            </if>
+            <if test="description != null and description!=''">
+                `description` = #{description} and
+            </if>
+            <if test="(_parameter instanceof com.ace.hotel.model.Hotel$QueryBuilder) == true">
+                <if test="hidList != null">
+                    `hid` in
+                    <foreach collection="hidList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="hidSt !=null">
+                    `hid` >= #{hidSt} and
+                </if>
+                <if test="hidEd!=null">
+                    `hid` &lt;= #{hidEd} and
+                </if>
+                <if test="hotelNameList != null">
+                    `hotel_name` in
+                    <foreach collection="hotelNameList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyHotelName!=null and fuzzyHotelName.size()>0">
+                    (
+                    <foreach collection="fuzzyHotelName" separator="or" item="item">
+                        `Hotel_name` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyHotelName!=null and rightFuzzyHotelName.size()>0">
+                    (
+                    <foreach collection="rightFuzzyHotelName" separator="or" item="item">
+                        `Hotel_name` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="addressList != null">
+                    `address` in
+                    <foreach collection="addressList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyAddress!=null and fuzzyAddress.size()>0">
+                    (
+                    <foreach collection="fuzzyAddress" separator="or" item="item">
+                        `Address` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyAddress!=null and rightFuzzyAddress.size()>0">
+                    (
+                    <foreach collection="rightFuzzyAddress" separator="or" item="item">
+                        `Address` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="phoneList != null">
+                    `phone` in
+                    <foreach collection="phoneList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyPhone!=null and fuzzyPhone.size()>0">
+                    (
+                    <foreach collection="fuzzyPhone" separator="or" item="item">
+                        `Phone` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyPhone!=null and rightFuzzyPhone.size()>0">
+                    (
+                    <foreach collection="rightFuzzyPhone" separator="or" item="item">
+                        `Phone` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="scoreList != null">
+                    `score` in
+                    <foreach collection="scoreList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="scoreSt !=null">
+                    `score` >= #{scoreSt} and
+                </if>
+                <if test="scoreEd!=null">
+                    `score` &lt;= #{scoreEd} and
+                </if>
+                <if test="tagsList != null">
+                    `tags` in
+                    <foreach collection="tagsList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyTags!=null and fuzzyTags.size()>0">
+                    (
+                    <foreach collection="fuzzyTags" separator="or" item="item">
+                        `Tags` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyTags!=null and rightFuzzyTags.size()>0">
+                    (
+                    <foreach collection="rightFuzzyTags" separator="or" item="item">
+                        `Tags` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="descriptionList != null">
+                    `description` in
+                    <foreach collection="descriptionList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyDescription!=null and fuzzyDescription.size()>0">
+                    (
+                    <foreach collection="fuzzyDescription" separator="or" item="item">
+                        `Description` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyDescription!=null and rightFuzzyDescription.size()>0">
+                    (
+                    <foreach collection="rightFuzzyDescription" separator="or" item="item">
+                        `Description` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+        limit 1
+    </select>
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+            `hid`,
+            `hotel_name`,
+            `address`,
+            `phone`,
+            `score`,
+            `tags`,
+            `description`,
+        </trim>
+    </sql>
+
+
+    <sql id="baseResult">
+        <trim suffixOverrides=",">
+            <if test="(_parameter instanceof com.ace.hotel.model.Hotel$QueryBuilder) == true">
+
+                <if test="fetchFields==null">
+                    <include refid="allResult"></include>
+                </if>
+                <if test="fetchFields!=null">
+                    <if test="fetchFields.AllFields !=null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields ==null and fetchFields.fetchFields==null and fetchFields.excludeFields==null and fetchFields.otherFields==null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
+                        <if test="fetchFields.fetchFields.hid==true">
+                            `hid`,
+                        </if>
+                        <if test="fetchFields.fetchFields.hotelName==true">
+                            `hotel_name`,
+                        </if>
+                        <if test="fetchFields.fetchFields.address==true">
+                            `address`,
+                        </if>
+                        <if test="fetchFields.fetchFields.phone==true">
+                            `phone`,
+                        </if>
+                        <if test="fetchFields.fetchFields.score==true">
+                            `score`,
+                        </if>
+                        <if test="fetchFields.fetchFields.tags==true">
+                            `tags`,
+                        </if>
+                        <if test="fetchFields.fetchFields.description==true">
+                            `description`,
+                        </if>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
+                        <if test="fetchFields.excludeFields.hid==null">
+                            `hid`,
+                        </if>
+                        <if test="fetchFields.excludeFields.hotelName==null">
+                            `hotel_name`,
+                        </if>
+                        <if test="fetchFields.excludeFields.address==null">
+                            `address`,
+                        </if>
+                        <if test="fetchFields.excludeFields.phone==null">
+                            `phone`,
+                        </if>
+                        <if test="fetchFields.excludeFields.score==null">
+                            `score`,
+                        </if>
+                        <if test="fetchFields.excludeFields.tags==null">
+                            `tags`,
+                        </if>
+                        <if test="fetchFields.excludeFields.description==null">
+                            `description`,
+                        </if>
+                    </if>
+                    <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">
+                        <foreach collection="fetchFields.otherFields" index="index" item="item" separator=",">
+                            `#{item}`
+                        </foreach>
+                    </if>
+                </if>
+            </if>
+            <if test="(_parameter instanceof com.ace.hotel.model.Hotel$QueryBuilder) == false">
+                <include refid="allResult"></include>
+            </if>
+
+        </trim>
+    </sql>
+
+
+</mapper>

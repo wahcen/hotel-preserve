@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="cacheEnabled" value="false"/>
+        <setting name="useGeneratedKeys" value="true"/>
+        <setting name="defaultExecutorType" value="REUSE"/>
+        <!--全局开启懒加载，禁用时所有对象都会即时加载-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--设置超时时间，它决定驱动等待一个数据库的响应时间-->
+        <setting name="defaultStatementTimeout" value="25000"/>
+    </settings>
+
+    <typeAliases>
+        <typeAlias alias="User" type="com.ace.hotel.model.User"/>
+    </typeAliases>
+    <!--已在spring-dao.xml中配置sqlSessionFactoryBean自动扫描mappers/*.xml映射文件-->
+    <!--    <mappers>-->
+    <!--        <mapper resource="mappers/UserMapper.xml" />-->
+    <!--    </mappers>-->
+</configuration>

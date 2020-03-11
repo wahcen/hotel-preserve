@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ace.hotel.dao.OrderMapper">
+    <select id="getOrdersByPhone" resultMap="OrderMap">
+        select * from hotel.t_order
+        where phone=#{phone}
+    </select>
+    <select id="getOrder" resultMap="OrderMap">
+        select * from hotel.t_order
+        where phone=#{phone} and created_time=#{createdTime}
+    </select>
+    <select id="checkOrderTime" resultType="Integer">
+        select count(*) from (select * from hotel.t_order where hid=#{hid} and room_type=#{roomType} and comment='active') derived
+        where
+        <![CDATA[
+            (derived.check_in_time>=#{checkInTime} and derived.check_out_time<=#{checkOutTime}) or
+            (derived.check_in_time<=#{checkInTime} and derived.check_out_time>=#{checkInTime})  or
+            (derived.check_in_time<=#{checkOutTime} and derived.check_out_time>=#{checkInTime})
+        ]]>
+    </select>
+    <update id="updateOrderComment">
+        update hotel.t_order
+        set hotel.t_order.comment=#{comment}
+        where hotel.t_order.created_time=#{createdTime} and hotel.t_order.phone=phone;
+    </update>
+    <resultMap type="com.ace.hotel.model.Order" id="OrderMap">
+        <result property="phone" column="phone"/>
+        <result property="idCard" column="id_card"/>
+        <result property="hid" column="hid"/>
+        <result property="hotelName" column="hotel_name"/>
+        <result property="roomType" column="room_type"/>
+        <result property="totalCharge" column="total_charge"/>
+        <result property="payType" column="pay_type"/>
+        <result property="checkInTime" column="check_in_time"/>
+        <result property="checkOutTime" column="check_out_time"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="tenantCount" column="tenant_count"/>
+        <result property="comment" column="comment"/>
+    </resultMap>
+</mapper>

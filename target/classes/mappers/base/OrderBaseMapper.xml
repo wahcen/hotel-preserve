@@ -1,0 +1,1019 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ace.hotel.dao.base.OrderBaseMapper">
+
+
+    <insert id="insertOrder">
+        INSERT INTO `t_order`
+        (
+        <trim suffixOverrides=",">
+            <if test="phone!=null">
+                `phone`,
+            </if>
+            <if test="idCard!=null">
+                `id_card`,
+            </if>
+            <if test="hid!=null">
+                `hid`,
+            </if>
+            <if test="hotelName!=null">
+                `hotel_name`,
+            </if>
+            <if test="roomType!=null">
+                `room_type`,
+            </if>
+            <if test="totalCharge!=null">
+                `total_charge`,
+            </if>
+            <if test="payType!=null">
+                `pay_type`,
+            </if>
+            <if test="checkInTime!=null">
+                `check_in_time`,
+            </if>
+            <if test="checkOutTime!=null">
+                `check_out_time`,
+            </if>
+            <if test="createdTime!=null">
+                `created_time`,
+            </if>
+            <if test="tenantCount!=null">
+                `tenant_count`,
+            </if>
+            <if test="comment!=null">
+                `comment`,
+            </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+            <if test="phone!=null">
+                #{phone},
+            </if>
+            <if test="idCard!=null">
+                #{idCard},
+            </if>
+            <if test="hid!=null">
+                #{hid},
+            </if>
+            <if test="hotelName!=null">
+                #{hotelName},
+            </if>
+            <if test="roomType!=null">
+                #{roomType},
+            </if>
+            <if test="totalCharge!=null">
+                #{totalCharge},
+            </if>
+            <if test="payType!=null">
+                #{payType},
+            </if>
+            <if test="checkInTime!=null">
+                #{checkInTime},
+            </if>
+            <if test="checkOutTime!=null">
+                #{checkOutTime},
+            </if>
+            <if test="createdTime!=null">
+                #{createdTime},
+            </if>
+            <if test="tenantCount!=null">
+                #{tenantCount},
+            </if>
+            <if test="comment!=null">
+                #{comment},
+            </if>
+        </trim>
+        )
+    </insert>
+
+
+    <update id="updateOrder">
+        UPDATE `t_order`
+        SET
+        <trim suffixOverrides=",">
+            <if test="idCard != null and idCard!=''">
+                `id_card` = #{idCard},
+            </if>
+            <if test="hid != null">
+                `hid` = #{hid},
+            </if>
+            <if test="hotelName != null and hotelName!=''">
+                `hotel_name` = #{hotelName},
+            </if>
+            <if test="roomType != null and roomType!=''">
+                `room_type` = #{roomType},
+            </if>
+            <if test="totalCharge != null">
+                `total_charge` = #{totalCharge},
+            </if>
+            <if test="payType != null and payType!=''">
+                `pay_type` = #{payType},
+            </if>
+            <if test="checkInTime != null">
+                `check_in_time` = #{checkInTime},
+            </if>
+            <if test="checkOutTime != null">
+                `check_out_time` = #{checkOutTime},
+            </if>
+            <if test="tenantCount != null">
+                `tenant_count` = #{tenantCount},
+            </if>
+            <if test="comment != null and comment!=''">
+                `comment` = #{comment},
+            </if>
+        </trim>
+        WHERE
+        <trim suffixOverrides="and">
+            `phone` = #{phone} and
+            `created_time` = #{createdTime} and
+        </trim>
+    </update>
+
+    <update id="update">
+        UPDATE `t_order`
+        SET
+        <trim suffixOverrides=",">
+            <if test="set.idCard != null and set.idCard!=''">
+                `id_card` = #{set.idCard},
+            </if>
+            <if test="set.hid != null">
+                `hid` = #{set.hid},
+            </if>
+            <if test="set.hotelName != null and set.hotelName!=''">
+                `hotel_name` = #{set.hotelName},
+            </if>
+            <if test="set.roomType != null and set.roomType!=''">
+                `room_type` = #{set.roomType},
+            </if>
+            <if test="set.totalCharge != null">
+                `total_charge` = #{set.totalCharge},
+            </if>
+            <if test="set.payType != null and set.payType!=''">
+                `pay_type` = #{set.payType},
+            </if>
+            <if test="set.checkInTime != null">
+                `check_in_time` = #{set.checkInTime},
+            </if>
+            <if test="set.checkOutTime != null">
+                `check_out_time` = #{set.checkOutTime},
+            </if>
+            <if test="set.tenantCount != null">
+                `tenant_count` = #{set.tenantCount},
+            </if>
+            <if test="set.comment != null and set.comment!=''">
+                `comment` = #{set.comment},
+            </if>
+        </trim>
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="where.phoneList != null">
+                `phone` in
+                <foreach collection="where.phoneList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.fuzzyPhone!=null and where.fuzzyPhone.size()>0">
+                (
+                <foreach collection="where.fuzzyPhone" separator="or" item="item">
+                    `Phone` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.rightFuzzyPhone!=null and where.rightFuzzyPhone.size()>0">
+                (
+                <foreach collection="where.rightFuzzyPhone" separator="or" item="item">
+                    `Phone` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.idCardList != null">
+                `id_card` in
+                <foreach collection="where.idCardList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.fuzzyIdCard!=null and where.fuzzyIdCard.size()>0">
+                (
+                <foreach collection="where.fuzzyIdCard" separator="or" item="item">
+                    `Id_card` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.rightFuzzyIdCard!=null and where.rightFuzzyIdCard.size()>0">
+                (
+                <foreach collection="where.rightFuzzyIdCard" separator="or" item="item">
+                    `Id_card` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.hidList != null">
+                `hid` in
+                <foreach collection="where.hidList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.hidSt !=null">
+                `hid` >= #{where.hidSt} and
+            </if>
+            <if test="where.hidEd!=null">
+                `hid` &lt;= #{where.hidEd} and
+            </if>
+            <if test="where.hotelNameList != null">
+                `hotel_name` in
+                <foreach collection="where.hotelNameList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.fuzzyHotelName!=null and where.fuzzyHotelName.size()>0">
+                (
+                <foreach collection="where.fuzzyHotelName" separator="or" item="item">
+                    `Hotel_name` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.rightFuzzyHotelName!=null and where.rightFuzzyHotelName.size()>0">
+                (
+                <foreach collection="where.rightFuzzyHotelName" separator="or" item="item">
+                    `Hotel_name` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.roomTypeList != null">
+                `room_type` in
+                <foreach collection="where.roomTypeList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.fuzzyRoomType!=null and where.fuzzyRoomType.size()>0">
+                (
+                <foreach collection="where.fuzzyRoomType" separator="or" item="item">
+                    `Room_type` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.rightFuzzyRoomType!=null and where.rightFuzzyRoomType.size()>0">
+                (
+                <foreach collection="where.rightFuzzyRoomType" separator="or" item="item">
+                    `Room_type` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.totalChargeList != null">
+                `total_charge` in
+                <foreach collection="where.totalChargeList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.totalChargeSt !=null">
+                `total_charge` >= #{where.totalChargeSt} and
+            </if>
+            <if test="where.totalChargeEd!=null">
+                `total_charge` &lt;= #{where.totalChargeEd} and
+            </if>
+            <if test="where.payTypeList != null">
+                `pay_type` in
+                <foreach collection="where.payTypeList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.fuzzyPayType!=null and where.fuzzyPayType.size()>0">
+                (
+                <foreach collection="where.fuzzyPayType" separator="or" item="item">
+                    `Pay_type` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.rightFuzzyPayType!=null and where.rightFuzzyPayType.size()>0">
+                (
+                <foreach collection="where.rightFuzzyPayType" separator="or" item="item">
+                    `Pay_type` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.checkInTimeList != null">
+                `check_in_time` in
+                <foreach collection="where.checkInTimeList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.checkInTimeSt !=null">
+                `check_in_time` >= #{where.checkInTimeSt} and
+            </if>
+            <if test="where.checkInTimeEd!=null">
+                `check_in_time` &lt;= #{where.checkInTimeEd} and
+            </if>
+            <if test="where.checkOutTimeList != null">
+                `check_out_time` in
+                <foreach collection="where.checkOutTimeList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.checkOutTimeSt !=null">
+                `check_out_time` >= #{where.checkOutTimeSt} and
+            </if>
+            <if test="where.checkOutTimeEd!=null">
+                `check_out_time` &lt;= #{where.checkOutTimeEd} and
+            </if>
+            <if test="where.createdTimeList != null">
+                `created_time` in
+                <foreach collection="where.createdTimeList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.createdTimeSt !=null">
+                `created_time` >= #{where.createdTimeSt} and
+            </if>
+            <if test="where.createdTimeEd!=null">
+                `created_time` &lt;= #{where.createdTimeEd} and
+            </if>
+            <if test="where.tenantCountList != null">
+                `tenant_count` in
+                <foreach collection="where.tenantCountList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.tenantCountSt !=null">
+                `tenant_count` >= #{where.tenantCountSt} and
+            </if>
+            <if test="where.tenantCountEd!=null">
+                `tenant_count` &lt;= #{where.tenantCountEd} and
+            </if>
+            <if test="where.commentList != null">
+                `comment` in
+                <foreach collection="where.commentList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.fuzzyComment!=null and where.fuzzyComment.size()>0">
+                (
+                <foreach collection="where.fuzzyComment" separator="or" item="item">
+                    `Comment` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.rightFuzzyComment!=null and where.rightFuzzyComment.size()>0">
+                (
+                <foreach collection="where.rightFuzzyComment" separator="or" item="item">
+                    `Comment` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+        </trim>
+    </update>
+
+
+    <resultMap type="com.ace.hotel.model.Order" id="OrderMap">
+        <result property="phone" column="phone"/>
+        <result property="idCard" column="id_card"/>
+        <result property="hid" column="hid"/>
+        <result property="hotelName" column="hotel_name"/>
+        <result property="roomType" column="room_type"/>
+        <result property="totalCharge" column="total_charge"/>
+        <result property="payType" column="pay_type"/>
+        <result property="checkInTime" column="check_in_time"/>
+        <result property="checkOutTime" column="check_out_time"/>
+        <result property="createdTime" column="created_time"/>
+        <result property="tenantCount" column="tenant_count"/>
+        <result property="comment" column="comment"/>
+    </resultMap>
+
+
+    <select id="queryOrder" resultMap="OrderMap">
+        select
+        <include refid="baseResult"></include>
+        from `t_order`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="phone != null and phone!=''">
+                `phone` = #{phone} and
+            </if>
+            <if test="idCard != null and idCard!=''">
+                `id_card` = #{idCard} and
+            </if>
+            <if test="hid != null">
+                `hid` = #{hid} and
+            </if>
+            <if test="hotelName != null and hotelName!=''">
+                `hotel_name` = #{hotelName} and
+            </if>
+            <if test="roomType != null and roomType!=''">
+                `room_type` = #{roomType} and
+            </if>
+            <if test="totalCharge != null">
+                `total_charge` = #{totalCharge} and
+            </if>
+            <if test="payType != null and payType!=''">
+                `pay_type` = #{payType} and
+            </if>
+            <if test="checkInTime != null">
+                `check_in_time` = #{checkInTime} and
+            </if>
+            <if test="checkOutTime != null">
+                `check_out_time` = #{checkOutTime} and
+            </if>
+            <if test="createdTime != null">
+                `created_time` = #{createdTime} and
+            </if>
+            <if test="tenantCount != null">
+                `tenant_count` = #{tenantCount} and
+            </if>
+            <if test="comment != null and comment!=''">
+                `comment` = #{comment} and
+            </if>
+            <if test="(_parameter instanceof com.ace.hotel.model.Order$QueryBuilder) == true">
+                <if test="phoneList != null">
+                    `phone` in
+                    <foreach collection="phoneList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyPhone!=null and fuzzyPhone.size()>0">
+                    (
+                    <foreach collection="fuzzyPhone" separator="or" item="item">
+                        `Phone` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyPhone!=null and rightFuzzyPhone.size()>0">
+                    (
+                    <foreach collection="rightFuzzyPhone" separator="or" item="item">
+                        `Phone` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="idCardList != null">
+                    `id_card` in
+                    <foreach collection="idCardList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyIdCard!=null and fuzzyIdCard.size()>0">
+                    (
+                    <foreach collection="fuzzyIdCard" separator="or" item="item">
+                        `Id_card` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyIdCard!=null and rightFuzzyIdCard.size()>0">
+                    (
+                    <foreach collection="rightFuzzyIdCard" separator="or" item="item">
+                        `Id_card` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="hidList != null">
+                    `hid` in
+                    <foreach collection="hidList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="hidSt !=null">
+                    `hid` >= #{hidSt} and
+                </if>
+                <if test="hidEd!=null">
+                    `hid` &lt;= #{hidEd} and
+                </if>
+                <if test="hotelNameList != null">
+                    `hotel_name` in
+                    <foreach collection="hotelNameList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyHotelName!=null and fuzzyHotelName.size()>0">
+                    (
+                    <foreach collection="fuzzyHotelName" separator="or" item="item">
+                        `Hotel_name` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyHotelName!=null and rightFuzzyHotelName.size()>0">
+                    (
+                    <foreach collection="rightFuzzyHotelName" separator="or" item="item">
+                        `Hotel_name` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="roomTypeList != null">
+                    `room_type` in
+                    <foreach collection="roomTypeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyRoomType!=null and fuzzyRoomType.size()>0">
+                    (
+                    <foreach collection="fuzzyRoomType" separator="or" item="item">
+                        `Room_type` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyRoomType!=null and rightFuzzyRoomType.size()>0">
+                    (
+                    <foreach collection="rightFuzzyRoomType" separator="or" item="item">
+                        `Room_type` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="totalChargeList != null">
+                    `total_charge` in
+                    <foreach collection="totalChargeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="totalChargeSt !=null">
+                    `total_charge` >= #{totalChargeSt} and
+                </if>
+                <if test="totalChargeEd!=null">
+                    `total_charge` &lt;= #{totalChargeEd} and
+                </if>
+                <if test="payTypeList != null">
+                    `pay_type` in
+                    <foreach collection="payTypeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyPayType!=null and fuzzyPayType.size()>0">
+                    (
+                    <foreach collection="fuzzyPayType" separator="or" item="item">
+                        `Pay_type` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyPayType!=null and rightFuzzyPayType.size()>0">
+                    (
+                    <foreach collection="rightFuzzyPayType" separator="or" item="item">
+                        `Pay_type` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="checkInTimeList != null">
+                    `check_in_time` in
+                    <foreach collection="checkInTimeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="checkInTimeSt !=null">
+                    `check_in_time` >= #{checkInTimeSt} and
+                </if>
+                <if test="checkInTimeEd!=null">
+                    `check_in_time` &lt;= #{checkInTimeEd} and
+                </if>
+                <if test="checkOutTimeList != null">
+                    `check_out_time` in
+                    <foreach collection="checkOutTimeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="checkOutTimeSt !=null">
+                    `check_out_time` >= #{checkOutTimeSt} and
+                </if>
+                <if test="checkOutTimeEd!=null">
+                    `check_out_time` &lt;= #{checkOutTimeEd} and
+                </if>
+                <if test="createdTimeList != null">
+                    `created_time` in
+                    <foreach collection="createdTimeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="createdTimeSt !=null">
+                    `created_time` >= #{createdTimeSt} and
+                </if>
+                <if test="createdTimeEd!=null">
+                    `created_time` &lt;= #{createdTimeEd} and
+                </if>
+                <if test="tenantCountList != null">
+                    `tenant_count` in
+                    <foreach collection="tenantCountList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="tenantCountSt !=null">
+                    `tenant_count` >= #{tenantCountSt} and
+                </if>
+                <if test="tenantCountEd!=null">
+                    `tenant_count` &lt;= #{tenantCountEd} and
+                </if>
+                <if test="commentList != null">
+                    `comment` in
+                    <foreach collection="commentList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyComment!=null and fuzzyComment.size()>0">
+                    (
+                    <foreach collection="fuzzyComment" separator="or" item="item">
+                        `Comment` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyComment!=null and rightFuzzyComment.size()>0">
+                    (
+                    <foreach collection="rightFuzzyComment" separator="or" item="item">
+                        `Comment` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+    </select>
+
+    <select id="queryOrderLimit1" resultMap="OrderMap">
+        select
+        <include refid="baseResult"></include>
+        from `t_order`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="phone != null and phone!=''">
+                `phone` = #{phone} and
+            </if>
+            <if test="idCard != null and idCard!=''">
+                `id_card` = #{idCard} and
+            </if>
+            <if test="hid != null">
+                `hid` = #{hid} and
+            </if>
+            <if test="hotelName != null and hotelName!=''">
+                `hotel_name` = #{hotelName} and
+            </if>
+            <if test="roomType != null and roomType!=''">
+                `room_type` = #{roomType} and
+            </if>
+            <if test="totalCharge != null">
+                `total_charge` = #{totalCharge} and
+            </if>
+            <if test="payType != null and payType!=''">
+                `pay_type` = #{payType} and
+            </if>
+            <if test="checkInTime != null">
+                `check_in_time` = #{checkInTime} and
+            </if>
+            <if test="checkOutTime != null">
+                `check_out_time` = #{checkOutTime} and
+            </if>
+            <if test="createdTime != null">
+                `created_time` = #{createdTime} and
+            </if>
+            <if test="tenantCount != null">
+                `tenant_count` = #{tenantCount} and
+            </if>
+            <if test="comment != null and comment!=''">
+                `comment` = #{comment} and
+            </if>
+            <if test="(_parameter instanceof com.ace.hotel.model.Order$QueryBuilder) == true">
+                <if test="phoneList != null">
+                    `phone` in
+                    <foreach collection="phoneList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyPhone!=null and fuzzyPhone.size()>0">
+                    (
+                    <foreach collection="fuzzyPhone" separator="or" item="item">
+                        `Phone` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyPhone!=null and rightFuzzyPhone.size()>0">
+                    (
+                    <foreach collection="rightFuzzyPhone" separator="or" item="item">
+                        `Phone` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="idCardList != null">
+                    `id_card` in
+                    <foreach collection="idCardList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyIdCard!=null and fuzzyIdCard.size()>0">
+                    (
+                    <foreach collection="fuzzyIdCard" separator="or" item="item">
+                        `Id_card` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyIdCard!=null and rightFuzzyIdCard.size()>0">
+                    (
+                    <foreach collection="rightFuzzyIdCard" separator="or" item="item">
+                        `Id_card` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="hidList != null">
+                    `hid` in
+                    <foreach collection="hidList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="hidSt !=null">
+                    `hid` >= #{hidSt} and
+                </if>
+                <if test="hidEd!=null">
+                    `hid` &lt;= #{hidEd} and
+                </if>
+                <if test="hotelNameList != null">
+                    `hotel_name` in
+                    <foreach collection="hotelNameList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyHotelName!=null and fuzzyHotelName.size()>0">
+                    (
+                    <foreach collection="fuzzyHotelName" separator="or" item="item">
+                        `Hotel_name` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyHotelName!=null and rightFuzzyHotelName.size()>0">
+                    (
+                    <foreach collection="rightFuzzyHotelName" separator="or" item="item">
+                        `Hotel_name` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="roomTypeList != null">
+                    `room_type` in
+                    <foreach collection="roomTypeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyRoomType!=null and fuzzyRoomType.size()>0">
+                    (
+                    <foreach collection="fuzzyRoomType" separator="or" item="item">
+                        `Room_type` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyRoomType!=null and rightFuzzyRoomType.size()>0">
+                    (
+                    <foreach collection="rightFuzzyRoomType" separator="or" item="item">
+                        `Room_type` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="totalChargeList != null">
+                    `total_charge` in
+                    <foreach collection="totalChargeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="totalChargeSt !=null">
+                    `total_charge` >= #{totalChargeSt} and
+                </if>
+                <if test="totalChargeEd!=null">
+                    `total_charge` &lt;= #{totalChargeEd} and
+                </if>
+                <if test="payTypeList != null">
+                    `pay_type` in
+                    <foreach collection="payTypeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyPayType!=null and fuzzyPayType.size()>0">
+                    (
+                    <foreach collection="fuzzyPayType" separator="or" item="item">
+                        `Pay_type` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyPayType!=null and rightFuzzyPayType.size()>0">
+                    (
+                    <foreach collection="rightFuzzyPayType" separator="or" item="item">
+                        `Pay_type` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="checkInTimeList != null">
+                    `check_in_time` in
+                    <foreach collection="checkInTimeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="checkInTimeSt !=null">
+                    `check_in_time` >= #{checkInTimeSt} and
+                </if>
+                <if test="checkInTimeEd!=null">
+                    `check_in_time` &lt;= #{checkInTimeEd} and
+                </if>
+                <if test="checkOutTimeList != null">
+                    `check_out_time` in
+                    <foreach collection="checkOutTimeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="checkOutTimeSt !=null">
+                    `check_out_time` >= #{checkOutTimeSt} and
+                </if>
+                <if test="checkOutTimeEd!=null">
+                    `check_out_time` &lt;= #{checkOutTimeEd} and
+                </if>
+                <if test="createdTimeList != null">
+                    `created_time` in
+                    <foreach collection="createdTimeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="createdTimeSt !=null">
+                    `created_time` >= #{createdTimeSt} and
+                </if>
+                <if test="createdTimeEd!=null">
+                    `created_time` &lt;= #{createdTimeEd} and
+                </if>
+                <if test="tenantCountList != null">
+                    `tenant_count` in
+                    <foreach collection="tenantCountList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="tenantCountSt !=null">
+                    `tenant_count` >= #{tenantCountSt} and
+                </if>
+                <if test="tenantCountEd!=null">
+                    `tenant_count` &lt;= #{tenantCountEd} and
+                </if>
+                <if test="commentList != null">
+                    `comment` in
+                    <foreach collection="commentList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyComment!=null and fuzzyComment.size()>0">
+                    (
+                    <foreach collection="fuzzyComment" separator="or" item="item">
+                        `Comment` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyComment!=null and rightFuzzyComment.size()>0">
+                    (
+                    <foreach collection="rightFuzzyComment" separator="or" item="item">
+                        `Comment` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+        limit 1
+    </select>
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+            `phone`,
+            `id_card`,
+            `hid`,
+            `hotel_name`,
+            `room_type`,
+            `total_charge`,
+            `pay_type`,
+            `check_in_time`,
+            `check_out_time`,
+            `created_time`,
+            `tenant_count`,
+            `comment`,
+        </trim>
+    </sql>
+
+
+    <sql id="baseResult">
+        <trim suffixOverrides=",">
+            <if test="(_parameter instanceof com.ace.hotel.model.Order$QueryBuilder) == true">
+
+                <if test="fetchFields==null">
+                    <include refid="allResult"></include>
+                </if>
+                <if test="fetchFields!=null">
+                    <if test="fetchFields.AllFields !=null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields ==null and fetchFields.fetchFields==null and fetchFields.excludeFields==null and fetchFields.otherFields==null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
+                        <if test="fetchFields.fetchFields.phone==true">
+                            `phone`,
+                        </if>
+                        <if test="fetchFields.fetchFields.idCard==true">
+                            `id_card`,
+                        </if>
+                        <if test="fetchFields.fetchFields.hid==true">
+                            `hid`,
+                        </if>
+                        <if test="fetchFields.fetchFields.hotelName==true">
+                            `hotel_name`,
+                        </if>
+                        <if test="fetchFields.fetchFields.roomType==true">
+                            `room_type`,
+                        </if>
+                        <if test="fetchFields.fetchFields.totalCharge==true">
+                            `total_charge`,
+                        </if>
+                        <if test="fetchFields.fetchFields.payType==true">
+                            `pay_type`,
+                        </if>
+                        <if test="fetchFields.fetchFields.checkInTime==true">
+                            `check_in_time`,
+                        </if>
+                        <if test="fetchFields.fetchFields.checkOutTime==true">
+                            `check_out_time`,
+                        </if>
+                        <if test="fetchFields.fetchFields.createdTime==true">
+                            `created_time`,
+                        </if>
+                        <if test="fetchFields.fetchFields.tenantCount==true">
+                            `tenant_count`,
+                        </if>
+                        <if test="fetchFields.fetchFields.comment==true">
+                            `comment`,
+                        </if>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
+                        <if test="fetchFields.excludeFields.phone==null">
+                            `phone`,
+                        </if>
+                        <if test="fetchFields.excludeFields.idCard==null">
+                            `id_card`,
+                        </if>
+                        <if test="fetchFields.excludeFields.hid==null">
+                            `hid`,
+                        </if>
+                        <if test="fetchFields.excludeFields.hotelName==null">
+                            `hotel_name`,
+                        </if>
+                        <if test="fetchFields.excludeFields.roomType==null">
+                            `room_type`,
+                        </if>
+                        <if test="fetchFields.excludeFields.totalCharge==null">
+                            `total_charge`,
+                        </if>
+                        <if test="fetchFields.excludeFields.payType==null">
+                            `pay_type`,
+                        </if>
+                        <if test="fetchFields.excludeFields.checkInTime==null">
+                            `check_in_time`,
+                        </if>
+                        <if test="fetchFields.excludeFields.checkOutTime==null">
+                            `check_out_time`,
+                        </if>
+                        <if test="fetchFields.excludeFields.createdTime==null">
+                            `created_time`,
+                        </if>
+                        <if test="fetchFields.excludeFields.tenantCount==null">
+                            `tenant_count`,
+                        </if>
+                        <if test="fetchFields.excludeFields.comment==null">
+                            `comment`,
+                        </if>
+                    </if>
+                    <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">
+                        <foreach collection="fetchFields.otherFields" index="index" item="item" separator=",">
+                            `#{item}`
+                        </foreach>
+                    </if>
+                </if>
+            </if>
+            <if test="(_parameter instanceof com.ace.hotel.model.Order$QueryBuilder) == false">
+                <include refid="allResult"></include>
+            </if>
+
+        </trim>
+    </sql>
+
+
+</mapper>

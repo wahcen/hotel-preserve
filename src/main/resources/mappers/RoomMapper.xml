@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ace.hotel.dao.RoomMapper">
+    <select id="getRoomsByHid" resultMap="RoomMap">
+        select * from hotel.t_room
+        <trim prefix="where">
+            hid=#{hid}
+        </trim>
+    </select>
+
+    <select id="getRoom" resultMap="RoomMap">
+        select * from hotel.t_room
+        where hid=#{hid} and room_type=#{roomType}
+    </select>
+    <resultMap type="com.ace.hotel.model.Room" id="RoomMap">
+        <result property="hid" column="hid"/>
+        <result property="roomType" column="room_type"/>
+        <result property="maxTenant" column="max_tenant"/>
+        <result property="bedType" column="bed_type"/>
+        <result property="dinnerType" column="dinner_type"/>
+        <result property="charge" column="charge"/>
+        <result property="remain" column="remain"/>
+        <result property="facilities" column="facilities"/>
+        <result property="policy" column="policy"/>
+    </resultMap>
+</mapper>

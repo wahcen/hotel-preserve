@@ -1,0 +1,692 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ace.hotel.dao.base.HotelImageBaseMapper">
+
+
+    <insert id="insertHotelImage" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `t_hotel_image`
+        (
+        <trim suffixOverrides=",">
+            <if test="id!=null">
+                `id`,
+            </if>
+            <if test="hid!=null">
+                `hid`,
+            </if>
+            <if test="url!=null">
+                `url`,
+            </if>
+            <if test="filename!=null">
+                `filename`,
+            </if>
+            <if test="size!=null">
+                `size`,
+            </if>
+            <if test="width!=null">
+                `width`,
+            </if>
+            <if test="height!=null">
+                `height`,
+            </if>
+            <if test="description!=null">
+                `description`,
+            </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+            <if test="id!=null">
+                #{id},
+            </if>
+            <if test="hid!=null">
+                #{hid},
+            </if>
+            <if test="url!=null">
+                #{url},
+            </if>
+            <if test="filename!=null">
+                #{filename},
+            </if>
+            <if test="size!=null">
+                #{size},
+            </if>
+            <if test="width!=null">
+                #{width},
+            </if>
+            <if test="height!=null">
+                #{height},
+            </if>
+            <if test="description!=null">
+                #{description},
+            </if>
+        </trim>
+        )
+    </insert>
+
+
+    <update id="updateHotelImage">
+        UPDATE `t_hotel_image`
+        SET
+        <trim suffixOverrides=",">
+            <if test="hid != null">
+                `hid` = #{hid},
+            </if>
+            <if test="url != null and url!=''">
+                `url` = #{url},
+            </if>
+            <if test="filename != null and filename!=''">
+                `filename` = #{filename},
+            </if>
+            <if test="size != null">
+                `size` = #{size},
+            </if>
+            <if test="width != null">
+                `width` = #{width},
+            </if>
+            <if test="height != null">
+                `height` = #{height},
+            </if>
+            <if test="description != null and description!=''">
+                `description` = #{description},
+            </if>
+        </trim>
+        WHERE
+        <trim suffixOverrides="and">
+            `id` = #{id} and
+        </trim>
+    </update>
+
+    <update id="update">
+        UPDATE `t_hotel_image`
+        SET
+        <trim suffixOverrides=",">
+            <if test="set.hid != null">
+                `hid` = #{set.hid},
+            </if>
+            <if test="set.url != null and set.url!=''">
+                `url` = #{set.url},
+            </if>
+            <if test="set.filename != null and set.filename!=''">
+                `filename` = #{set.filename},
+            </if>
+            <if test="set.size != null">
+                `size` = #{set.size},
+            </if>
+            <if test="set.width != null">
+                `width` = #{set.width},
+            </if>
+            <if test="set.height != null">
+                `height` = #{set.height},
+            </if>
+            <if test="set.description != null and set.description!=''">
+                `description` = #{set.description},
+            </if>
+        </trim>
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="where.idList != null">
+                `id` in
+                <foreach collection="where.idList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.idSt !=null">
+                `id` >= #{where.idSt} and
+            </if>
+            <if test="where.idEd!=null">
+                `id` &lt;= #{where.idEd} and
+            </if>
+            <if test="where.hidList != null">
+                `hid` in
+                <foreach collection="where.hidList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.hidSt !=null">
+                `hid` >= #{where.hidSt} and
+            </if>
+            <if test="where.hidEd!=null">
+                `hid` &lt;= #{where.hidEd} and
+            </if>
+            <if test="where.urlList != null">
+                `url` in
+                <foreach collection="where.urlList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.fuzzyUrl!=null and where.fuzzyUrl.size()>0">
+                (
+                <foreach collection="where.fuzzyUrl" separator="or" item="item">
+                    `Url` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.rightFuzzyUrl!=null and where.rightFuzzyUrl.size()>0">
+                (
+                <foreach collection="where.rightFuzzyUrl" separator="or" item="item">
+                    `Url` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.filenameList != null">
+                `filename` in
+                <foreach collection="where.filenameList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.fuzzyFilename!=null and where.fuzzyFilename.size()>0">
+                (
+                <foreach collection="where.fuzzyFilename" separator="or" item="item">
+                    `Filename` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.rightFuzzyFilename!=null and where.rightFuzzyFilename.size()>0">
+                (
+                <foreach collection="where.rightFuzzyFilename" separator="or" item="item">
+                    `Filename` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.sizeList != null">
+                `size` in
+                <foreach collection="where.sizeList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.sizeSt !=null">
+                `size` >= #{where.sizeSt} and
+            </if>
+            <if test="where.sizeEd!=null">
+                `size` &lt;= #{where.sizeEd} and
+            </if>
+            <if test="where.widthList != null">
+                `width` in
+                <foreach collection="where.widthList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.widthSt !=null">
+                `width` >= #{where.widthSt} and
+            </if>
+            <if test="where.widthEd!=null">
+                `width` &lt;= #{where.widthEd} and
+            </if>
+            <if test="where.heightList != null">
+                `height` in
+                <foreach collection="where.heightList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.heightSt !=null">
+                `height` >= #{where.heightSt} and
+            </if>
+            <if test="where.heightEd!=null">
+                `height` &lt;= #{where.heightEd} and
+            </if>
+            <if test="where.descriptionList != null">
+                `description` in
+                <foreach collection="where.descriptionList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.fuzzyDescription!=null and where.fuzzyDescription.size()>0">
+                (
+                <foreach collection="where.fuzzyDescription" separator="or" item="item">
+                    `Description` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.rightFuzzyDescription!=null and where.rightFuzzyDescription.size()>0">
+                (
+                <foreach collection="where.rightFuzzyDescription" separator="or" item="item">
+                    `Description` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+        </trim>
+    </update>
+
+
+    <resultMap type="com.ace.hotel.model.HotelImage" id="HotelImageMap">
+        <result property="id" column="id"/>
+        <result property="hid" column="hid"/>
+        <result property="url" column="url"/>
+        <result property="filename" column="filename"/>
+        <result property="size" column="size"/>
+        <result property="width" column="width"/>
+        <result property="height" column="height"/>
+        <result property="description" column="description"/>
+    </resultMap>
+
+
+    <select id="queryHotelImage" resultMap="HotelImageMap">
+        select
+        <include refid="baseResult"></include>
+        from `t_hotel_image`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="id != null">
+                `id` = #{id} and
+            </if>
+            <if test="hid != null">
+                `hid` = #{hid} and
+            </if>
+            <if test="url != null and url!=''">
+                `url` = #{url} and
+            </if>
+            <if test="filename != null and filename!=''">
+                `filename` = #{filename} and
+            </if>
+            <if test="size != null">
+                `size` = #{size} and
+            </if>
+            <if test="width != null">
+                `width` = #{width} and
+            </if>
+            <if test="height != null">
+                `height` = #{height} and
+            </if>
+            <if test="description != null and description!=''">
+                `description` = #{description} and
+            </if>
+            <if test="(_parameter instanceof com.ace.hotel.model.HotelImage$QueryBuilder) == true">
+                <if test="idList != null">
+                    `id` in
+                    <foreach collection="idList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="idSt !=null">
+                    `id` >= #{idSt} and
+                </if>
+                <if test="idEd!=null">
+                    `id` &lt;= #{idEd} and
+                </if>
+                <if test="hidList != null">
+                    `hid` in
+                    <foreach collection="hidList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="hidSt !=null">
+                    `hid` >= #{hidSt} and
+                </if>
+                <if test="hidEd!=null">
+                    `hid` &lt;= #{hidEd} and
+                </if>
+                <if test="urlList != null">
+                    `url` in
+                    <foreach collection="urlList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyUrl!=null and fuzzyUrl.size()>0">
+                    (
+                    <foreach collection="fuzzyUrl" separator="or" item="item">
+                        `Url` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyUrl!=null and rightFuzzyUrl.size()>0">
+                    (
+                    <foreach collection="rightFuzzyUrl" separator="or" item="item">
+                        `Url` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="filenameList != null">
+                    `filename` in
+                    <foreach collection="filenameList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyFilename!=null and fuzzyFilename.size()>0">
+                    (
+                    <foreach collection="fuzzyFilename" separator="or" item="item">
+                        `Filename` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyFilename!=null and rightFuzzyFilename.size()>0">
+                    (
+                    <foreach collection="rightFuzzyFilename" separator="or" item="item">
+                        `Filename` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="sizeList != null">
+                    `size` in
+                    <foreach collection="sizeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="sizeSt !=null">
+                    `size` >= #{sizeSt} and
+                </if>
+                <if test="sizeEd!=null">
+                    `size` &lt;= #{sizeEd} and
+                </if>
+                <if test="widthList != null">
+                    `width` in
+                    <foreach collection="widthList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="widthSt !=null">
+                    `width` >= #{widthSt} and
+                </if>
+                <if test="widthEd!=null">
+                    `width` &lt;= #{widthEd} and
+                </if>
+                <if test="heightList != null">
+                    `height` in
+                    <foreach collection="heightList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="heightSt !=null">
+                    `height` >= #{heightSt} and
+                </if>
+                <if test="heightEd!=null">
+                    `height` &lt;= #{heightEd} and
+                </if>
+                <if test="descriptionList != null">
+                    `description` in
+                    <foreach collection="descriptionList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyDescription!=null and fuzzyDescription.size()>0">
+                    (
+                    <foreach collection="fuzzyDescription" separator="or" item="item">
+                        `Description` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyDescription!=null and rightFuzzyDescription.size()>0">
+                    (
+                    <foreach collection="rightFuzzyDescription" separator="or" item="item">
+                        `Description` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+    </select>
+
+    <select id="queryHotelImageLimit1" resultMap="HotelImageMap">
+        select
+        <include refid="baseResult"></include>
+        from `t_hotel_image`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="id != null">
+                `id` = #{id} and
+            </if>
+            <if test="hid != null">
+                `hid` = #{hid} and
+            </if>
+            <if test="url != null and url!=''">
+                `url` = #{url} and
+            </if>
+            <if test="filename != null and filename!=''">
+                `filename` = #{filename} and
+            </if>
+            <if test="size != null">
+                `size` = #{size} and
+            </if>
+            <if test="width != null">
+                `width` = #{width} and
+            </if>
+            <if test="height != null">
+                `height` = #{height} and
+            </if>
+            <if test="description != null and description!=''">
+                `description` = #{description} and
+            </if>
+            <if test="(_parameter instanceof com.ace.hotel.model.HotelImage$QueryBuilder) == true">
+                <if test="idList != null">
+                    `id` in
+                    <foreach collection="idList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="idSt !=null">
+                    `id` >= #{idSt} and
+                </if>
+                <if test="idEd!=null">
+                    `id` &lt;= #{idEd} and
+                </if>
+                <if test="hidList != null">
+                    `hid` in
+                    <foreach collection="hidList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="hidSt !=null">
+                    `hid` >= #{hidSt} and
+                </if>
+                <if test="hidEd!=null">
+                    `hid` &lt;= #{hidEd} and
+                </if>
+                <if test="urlList != null">
+                    `url` in
+                    <foreach collection="urlList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyUrl!=null and fuzzyUrl.size()>0">
+                    (
+                    <foreach collection="fuzzyUrl" separator="or" item="item">
+                        `Url` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyUrl!=null and rightFuzzyUrl.size()>0">
+                    (
+                    <foreach collection="rightFuzzyUrl" separator="or" item="item">
+                        `Url` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="filenameList != null">
+                    `filename` in
+                    <foreach collection="filenameList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyFilename!=null and fuzzyFilename.size()>0">
+                    (
+                    <foreach collection="fuzzyFilename" separator="or" item="item">
+                        `Filename` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyFilename!=null and rightFuzzyFilename.size()>0">
+                    (
+                    <foreach collection="rightFuzzyFilename" separator="or" item="item">
+                        `Filename` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="sizeList != null">
+                    `size` in
+                    <foreach collection="sizeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="sizeSt !=null">
+                    `size` >= #{sizeSt} and
+                </if>
+                <if test="sizeEd!=null">
+                    `size` &lt;= #{sizeEd} and
+                </if>
+                <if test="widthList != null">
+                    `width` in
+                    <foreach collection="widthList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="widthSt !=null">
+                    `width` >= #{widthSt} and
+                </if>
+                <if test="widthEd!=null">
+                    `width` &lt;= #{widthEd} and
+                </if>
+                <if test="heightList != null">
+                    `height` in
+                    <foreach collection="heightList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="heightSt !=null">
+                    `height` >= #{heightSt} and
+                </if>
+                <if test="heightEd!=null">
+                    `height` &lt;= #{heightEd} and
+                </if>
+                <if test="descriptionList != null">
+                    `description` in
+                    <foreach collection="descriptionList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyDescription!=null and fuzzyDescription.size()>0">
+                    (
+                    <foreach collection="fuzzyDescription" separator="or" item="item">
+                        `Description` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyDescription!=null and rightFuzzyDescription.size()>0">
+                    (
+                    <foreach collection="rightFuzzyDescription" separator="or" item="item">
+                        `Description` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+            </if>
+        </trim>
+        limit 1
+    </select>
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+            `id`,
+            `hid`,
+            `url`,
+            `filename`,
+            `size`,
+            `width`,
+            `height`,
+            `description`,
+        </trim>
+    </sql>
+
+
+    <sql id="baseResult">
+        <trim suffixOverrides=",">
+            <if test="(_parameter instanceof com.ace.hotel.model.HotelImage$QueryBuilder) == true">
+
+                <if test="fetchFields==null">
+                    <include refid="allResult"></include>
+                </if>
+                <if test="fetchFields!=null">
+                    <if test="fetchFields.AllFields !=null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields ==null and fetchFields.fetchFields==null and fetchFields.excludeFields==null and fetchFields.otherFields==null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
+                        <if test="fetchFields.fetchFields.id==true">
+                            `id`,
+                        </if>
+                        <if test="fetchFields.fetchFields.hid==true">
+                            `hid`,
+                        </if>
+                        <if test="fetchFields.fetchFields.url==true">
+                            `url`,
+                        </if>
+                        <if test="fetchFields.fetchFields.filename==true">
+                            `filename`,
+                        </if>
+                        <if test="fetchFields.fetchFields.size==true">
+                            `size`,
+                        </if>
+                        <if test="fetchFields.fetchFields.width==true">
+                            `width`,
+                        </if>
+                        <if test="fetchFields.fetchFields.height==true">
+                            `height`,
+                        </if>
+                        <if test="fetchFields.fetchFields.description==true">
+                            `description`,
+                        </if>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
+                        <if test="fetchFields.excludeFields.id==null">
+                            `id`,
+                        </if>
+                        <if test="fetchFields.excludeFields.hid==null">
+                            `hid`,
+                        </if>
+                        <if test="fetchFields.excludeFields.url==null">
+                            `url`,
+                        </if>
+                        <if test="fetchFields.excludeFields.filename==null">
+                            `filename`,
+                        </if>
+                        <if test="fetchFields.excludeFields.size==null">
+                            `size`,
+                        </if>
+                        <if test="fetchFields.excludeFields.width==null">
+                            `width`,
+                        </if>
+                        <if test="fetchFields.excludeFields.height==null">
+                            `height`,
+                        </if>
+                        <if test="fetchFields.excludeFields.description==null">
+                            `description`,
+                        </if>
+                    </if>
+                    <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">
+                        <foreach collection="fetchFields.otherFields" index="index" item="item" separator=",">
+                            `#{item}`
+                        </foreach>
+                    </if>
+                </if>
+            </if>
+            <if test="(_parameter instanceof com.ace.hotel.model.HotelImage$QueryBuilder) == false">
+                <include refid="allResult"></include>
+            </if>
+
+        </trim>
+    </sql>
+
+
+</mapper>

@@ -1,0 +1,776 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ace.hotel.dao.base.RoomBaseMapper">
+
+
+    <insert id="insertRoom">
+        INSERT INTO `t_room`
+        (
+        <trim suffixOverrides=",">
+            <if test="hid!=null">
+                `hid`,
+            </if>
+            <if test="roomType!=null">
+                `room_type`,
+            </if>
+            <if test="maxTenant!=null">
+                `max_tenant`,
+            </if>
+            <if test="bedType!=null">
+                `bed_type`,
+            </if>
+            <if test="dinnerType!=null">
+                `dinner_type`,
+            </if>
+            <if test="charge!=null">
+                `charge`,
+            </if>
+            <if test="remain!=null">
+                `remain`,
+            </if>
+            <if test="facilities!=null">
+                `facilities`,
+            </if>
+            <if test="policy!=null">
+                `policy`,
+            </if>
+        </trim>
+        )
+        VALUES
+        (
+        <trim suffixOverrides=",">
+            <if test="hid!=null">
+                #{hid},
+            </if>
+            <if test="roomType!=null">
+                #{roomType},
+            </if>
+            <if test="maxTenant!=null">
+                #{maxTenant},
+            </if>
+            <if test="bedType!=null">
+                #{bedType},
+            </if>
+            <if test="dinnerType!=null">
+                #{dinnerType},
+            </if>
+            <if test="charge!=null">
+                #{charge},
+            </if>
+            <if test="remain!=null">
+                #{remain},
+            </if>
+            <if test="facilities!=null">
+                #{facilities},
+            </if>
+            <if test="policy!=null">
+                #{policy},
+            </if>
+        </trim>
+        )
+    </insert>
+
+
+    <update id="updateRoom">
+        UPDATE `t_room`
+        SET
+        <trim suffixOverrides=",">
+            <if test="maxTenant != null">
+                `max_tenant` = #{maxTenant},
+            </if>
+            <if test="bedType != null and bedType!=''">
+                `bed_type` = #{bedType},
+            </if>
+            <if test="dinnerType != null and dinnerType!=''">
+                `dinner_type` = #{dinnerType},
+            </if>
+            <if test="charge != null">
+                `charge` = #{charge},
+            </if>
+            <if test="remain != null">
+                `remain` = #{remain},
+            </if>
+            <if test="facilities != null and facilities!=''">
+                `facilities` = #{facilities},
+            </if>
+            <if test="policy != null">
+                `policy` = #{policy},
+            </if>
+        </trim>
+        WHERE
+        <trim suffixOverrides="and">
+            `hid` = #{hid} and
+            `room_type` = #{roomType} and
+        </trim>
+    </update>
+
+    <update id="update">
+        UPDATE `t_room`
+        SET
+        <trim suffixOverrides=",">
+            <if test="set.maxTenant != null">
+                `max_tenant` = #{set.maxTenant},
+            </if>
+            <if test="set.bedType != null and set.bedType!=''">
+                `bed_type` = #{set.bedType},
+            </if>
+            <if test="set.dinnerType != null and set.dinnerType!=''">
+                `dinner_type` = #{set.dinnerType},
+            </if>
+            <if test="set.charge != null">
+                `charge` = #{set.charge},
+            </if>
+            <if test="set.remain != null">
+                `remain` = #{set.remain},
+            </if>
+            <if test="set.facilities != null and set.facilities!=''">
+                `facilities` = #{set.facilities},
+            </if>
+            <if test="set.policy != null">
+                `policy` = #{set.policy},
+            </if>
+        </trim>
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="where.hidList != null">
+                `hid` in
+                <foreach collection="where.hidList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.hidSt !=null">
+                `hid` >= #{where.hidSt} and
+            </if>
+            <if test="where.hidEd!=null">
+                `hid` &lt;= #{where.hidEd} and
+            </if>
+            <if test="where.roomTypeList != null">
+                `room_type` in
+                <foreach collection="where.roomTypeList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.fuzzyRoomType!=null and where.fuzzyRoomType.size()>0">
+                (
+                <foreach collection="where.fuzzyRoomType" separator="or" item="item">
+                    `Room_type` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.rightFuzzyRoomType!=null and where.rightFuzzyRoomType.size()>0">
+                (
+                <foreach collection="where.rightFuzzyRoomType" separator="or" item="item">
+                    `Room_type` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.maxTenantList != null">
+                `max_tenant` in
+                <foreach collection="where.maxTenantList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.maxTenantSt !=null">
+                `max_tenant` >= #{where.maxTenantSt} and
+            </if>
+            <if test="where.maxTenantEd!=null">
+                `max_tenant` &lt;= #{where.maxTenantEd} and
+            </if>
+            <if test="where.bedTypeList != null">
+                `bed_type` in
+                <foreach collection="where.bedTypeList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.fuzzyBedType!=null and where.fuzzyBedType.size()>0">
+                (
+                <foreach collection="where.fuzzyBedType" separator="or" item="item">
+                    `Bed_type` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.rightFuzzyBedType!=null and where.rightFuzzyBedType.size()>0">
+                (
+                <foreach collection="where.rightFuzzyBedType" separator="or" item="item">
+                    `Bed_type` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.dinnerTypeList != null">
+                `dinner_type` in
+                <foreach collection="where.dinnerTypeList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.fuzzyDinnerType!=null and where.fuzzyDinnerType.size()>0">
+                (
+                <foreach collection="where.fuzzyDinnerType" separator="or" item="item">
+                    `Dinner_type` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.rightFuzzyDinnerType!=null and where.rightFuzzyDinnerType.size()>0">
+                (
+                <foreach collection="where.rightFuzzyDinnerType" separator="or" item="item">
+                    `Dinner_type` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.chargeList != null">
+                `charge` in
+                <foreach collection="where.chargeList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.chargeSt !=null">
+                `charge` >= #{where.chargeSt} and
+            </if>
+            <if test="where.chargeEd!=null">
+                `charge` &lt;= #{where.chargeEd} and
+            </if>
+            <if test="where.remainList != null">
+                `remain` in
+                <foreach collection="where.remainList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.remainSt !=null">
+                `remain` >= #{where.remainSt} and
+            </if>
+            <if test="where.remainEd!=null">
+                `remain` &lt;= #{where.remainEd} and
+            </if>
+            <if test="where.facilitiesList != null">
+                `facilities` in
+                <foreach collection="where.facilitiesList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.fuzzyFacilities!=null and where.fuzzyFacilities.size()>0">
+                (
+                <foreach collection="where.fuzzyFacilities" separator="or" item="item">
+                    `Facilities` like concat('%',#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.rightFuzzyFacilities!=null and where.rightFuzzyFacilities.size()>0">
+                (
+                <foreach collection="where.rightFuzzyFacilities" separator="or" item="item">
+                    `Facilities` like concat(#{item},'%')
+                </foreach>
+                ) and
+            </if>
+            <if test="where.policyList != null">
+                `policy` in
+                <foreach collection="where.policyList" close=")" open="(" separator="," item="item">
+                    #{item}
+                </foreach>
+                and
+            </if>
+            <if test="where.policySt !=null">
+                `policy` >= #{where.policySt} and
+            </if>
+            <if test="where.policyEd!=null">
+                `policy` &lt;= #{where.policyEd} and
+            </if>
+        </trim>
+    </update>
+
+
+    <resultMap type="com.ace.hotel.model.Room" id="RoomMap">
+        <result property="hid" column="hid"/>
+        <result property="roomType" column="room_type"/>
+        <result property="maxTenant" column="max_tenant"/>
+        <result property="bedType" column="bed_type"/>
+        <result property="dinnerType" column="dinner_type"/>
+        <result property="charge" column="charge"/>
+        <result property="remain" column="remain"/>
+        <result property="facilities" column="facilities"/>
+        <result property="policy" column="policy"/>
+    </resultMap>
+
+
+    <select id="queryRoom" resultMap="RoomMap">
+        select
+        <include refid="baseResult"></include>
+        from `t_room`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="hid != null">
+                `hid` = #{hid} and
+            </if>
+            <if test="roomType != null and roomType!=''">
+                `room_type` = #{roomType} and
+            </if>
+            <if test="maxTenant != null">
+                `max_tenant` = #{maxTenant} and
+            </if>
+            <if test="bedType != null and bedType!=''">
+                `bed_type` = #{bedType} and
+            </if>
+            <if test="dinnerType != null and dinnerType!=''">
+                `dinner_type` = #{dinnerType} and
+            </if>
+            <if test="charge != null">
+                `charge` = #{charge} and
+            </if>
+            <if test="remain != null">
+                `remain` = #{remain} and
+            </if>
+            <if test="facilities != null and facilities!=''">
+                `facilities` = #{facilities} and
+            </if>
+            <if test="policy != null">
+                `policy` = #{policy} and
+            </if>
+            <if test="(_parameter instanceof com.ace.hotel.model.Room$QueryBuilder) == true">
+                <if test="hidList != null">
+                    `hid` in
+                    <foreach collection="hidList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="hidSt !=null">
+                    `hid` >= #{hidSt} and
+                </if>
+                <if test="hidEd!=null">
+                    `hid` &lt;= #{hidEd} and
+                </if>
+                <if test="roomTypeList != null">
+                    `room_type` in
+                    <foreach collection="roomTypeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyRoomType!=null and fuzzyRoomType.size()>0">
+                    (
+                    <foreach collection="fuzzyRoomType" separator="or" item="item">
+                        `Room_type` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyRoomType!=null and rightFuzzyRoomType.size()>0">
+                    (
+                    <foreach collection="rightFuzzyRoomType" separator="or" item="item">
+                        `Room_type` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="maxTenantList != null">
+                    `max_tenant` in
+                    <foreach collection="maxTenantList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="maxTenantSt !=null">
+                    `max_tenant` >= #{maxTenantSt} and
+                </if>
+                <if test="maxTenantEd!=null">
+                    `max_tenant` &lt;= #{maxTenantEd} and
+                </if>
+                <if test="bedTypeList != null">
+                    `bed_type` in
+                    <foreach collection="bedTypeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyBedType!=null and fuzzyBedType.size()>0">
+                    (
+                    <foreach collection="fuzzyBedType" separator="or" item="item">
+                        `Bed_type` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyBedType!=null and rightFuzzyBedType.size()>0">
+                    (
+                    <foreach collection="rightFuzzyBedType" separator="or" item="item">
+                        `Bed_type` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="dinnerTypeList != null">
+                    `dinner_type` in
+                    <foreach collection="dinnerTypeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyDinnerType!=null and fuzzyDinnerType.size()>0">
+                    (
+                    <foreach collection="fuzzyDinnerType" separator="or" item="item">
+                        `Dinner_type` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyDinnerType!=null and rightFuzzyDinnerType.size()>0">
+                    (
+                    <foreach collection="rightFuzzyDinnerType" separator="or" item="item">
+                        `Dinner_type` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="chargeList != null">
+                    `charge` in
+                    <foreach collection="chargeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="chargeSt !=null">
+                    `charge` >= #{chargeSt} and
+                </if>
+                <if test="chargeEd!=null">
+                    `charge` &lt;= #{chargeEd} and
+                </if>
+                <if test="remainList != null">
+                    `remain` in
+                    <foreach collection="remainList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="remainSt !=null">
+                    `remain` >= #{remainSt} and
+                </if>
+                <if test="remainEd!=null">
+                    `remain` &lt;= #{remainEd} and
+                </if>
+                <if test="facilitiesList != null">
+                    `facilities` in
+                    <foreach collection="facilitiesList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyFacilities!=null and fuzzyFacilities.size()>0">
+                    (
+                    <foreach collection="fuzzyFacilities" separator="or" item="item">
+                        `Facilities` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyFacilities!=null and rightFuzzyFacilities.size()>0">
+                    (
+                    <foreach collection="rightFuzzyFacilities" separator="or" item="item">
+                        `Facilities` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="policyList != null">
+                    `policy` in
+                    <foreach collection="policyList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="policySt !=null">
+                    `policy` >= #{policySt} and
+                </if>
+                <if test="policyEd!=null">
+                    `policy` &lt;= #{policyEd} and
+                </if>
+            </if>
+        </trim>
+    </select>
+
+    <select id="queryRoomLimit1" resultMap="RoomMap">
+        select
+        <include refid="baseResult"></include>
+        from `t_room`
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="hid != null">
+                `hid` = #{hid} and
+            </if>
+            <if test="roomType != null and roomType!=''">
+                `room_type` = #{roomType} and
+            </if>
+            <if test="maxTenant != null">
+                `max_tenant` = #{maxTenant} and
+            </if>
+            <if test="bedType != null and bedType!=''">
+                `bed_type` = #{bedType} and
+            </if>
+            <if test="dinnerType != null and dinnerType!=''">
+                `dinner_type` = #{dinnerType} and
+            </if>
+            <if test="charge != null">
+                `charge` = #{charge} and
+            </if>
+            <if test="remain != null">
+                `remain` = #{remain} and
+            </if>
+            <if test="facilities != null and facilities!=''">
+                `facilities` = #{facilities} and
+            </if>
+            <if test="policy != null">
+                `policy` = #{policy} and
+            </if>
+            <if test="(_parameter instanceof com.ace.hotel.model.Room$QueryBuilder) == true">
+                <if test="hidList != null">
+                    `hid` in
+                    <foreach collection="hidList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="hidSt !=null">
+                    `hid` >= #{hidSt} and
+                </if>
+                <if test="hidEd!=null">
+                    `hid` &lt;= #{hidEd} and
+                </if>
+                <if test="roomTypeList != null">
+                    `room_type` in
+                    <foreach collection="roomTypeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyRoomType!=null and fuzzyRoomType.size()>0">
+                    (
+                    <foreach collection="fuzzyRoomType" separator="or" item="item">
+                        `Room_type` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyRoomType!=null and rightFuzzyRoomType.size()>0">
+                    (
+                    <foreach collection="rightFuzzyRoomType" separator="or" item="item">
+                        `Room_type` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="maxTenantList != null">
+                    `max_tenant` in
+                    <foreach collection="maxTenantList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="maxTenantSt !=null">
+                    `max_tenant` >= #{maxTenantSt} and
+                </if>
+                <if test="maxTenantEd!=null">
+                    `max_tenant` &lt;= #{maxTenantEd} and
+                </if>
+                <if test="bedTypeList != null">
+                    `bed_type` in
+                    <foreach collection="bedTypeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyBedType!=null and fuzzyBedType.size()>0">
+                    (
+                    <foreach collection="fuzzyBedType" separator="or" item="item">
+                        `Bed_type` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyBedType!=null and rightFuzzyBedType.size()>0">
+                    (
+                    <foreach collection="rightFuzzyBedType" separator="or" item="item">
+                        `Bed_type` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="dinnerTypeList != null">
+                    `dinner_type` in
+                    <foreach collection="dinnerTypeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyDinnerType!=null and fuzzyDinnerType.size()>0">
+                    (
+                    <foreach collection="fuzzyDinnerType" separator="or" item="item">
+                        `Dinner_type` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyDinnerType!=null and rightFuzzyDinnerType.size()>0">
+                    (
+                    <foreach collection="rightFuzzyDinnerType" separator="or" item="item">
+                        `Dinner_type` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="chargeList != null">
+                    `charge` in
+                    <foreach collection="chargeList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="chargeSt !=null">
+                    `charge` >= #{chargeSt} and
+                </if>
+                <if test="chargeEd!=null">
+                    `charge` &lt;= #{chargeEd} and
+                </if>
+                <if test="remainList != null">
+                    `remain` in
+                    <foreach collection="remainList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="remainSt !=null">
+                    `remain` >= #{remainSt} and
+                </if>
+                <if test="remainEd!=null">
+                    `remain` &lt;= #{remainEd} and
+                </if>
+                <if test="facilitiesList != null">
+                    `facilities` in
+                    <foreach collection="facilitiesList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="fuzzyFacilities!=null and fuzzyFacilities.size()>0">
+                    (
+                    <foreach collection="fuzzyFacilities" separator="or" item="item">
+                        `Facilities` like concat('%',#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="rightFuzzyFacilities!=null and rightFuzzyFacilities.size()>0">
+                    (
+                    <foreach collection="rightFuzzyFacilities" separator="or" item="item">
+                        `Facilities` like concat(#{item},'%')
+                    </foreach>
+                    ) and
+                </if>
+                <if test="policyList != null">
+                    `policy` in
+                    <foreach collection="policyList" close=")" open="(" separator="," item="item">
+                        #{item}
+                    </foreach>
+                    and
+                </if>
+                <if test="policySt !=null">
+                    `policy` >= #{policySt} and
+                </if>
+                <if test="policyEd!=null">
+                    `policy` &lt;= #{policyEd} and
+                </if>
+            </if>
+        </trim>
+        limit 1
+    </select>
+
+    <sql id="allResult">
+        <trim suffixOverrides=",">
+            `hid`,
+            `room_type`,
+            `max_tenant`,
+            `bed_type`,
+            `dinner_type`,
+            `charge`,
+            `remain`,
+            `facilities`,
+            `policy`,
+        </trim>
+    </sql>
+
+
+    <sql id="baseResult">
+        <trim suffixOverrides=",">
+            <if test="(_parameter instanceof com.ace.hotel.model.Room$QueryBuilder) == true">
+
+                <if test="fetchFields==null">
+                    <include refid="allResult"></include>
+                </if>
+                <if test="fetchFields!=null">
+                    <if test="fetchFields.AllFields !=null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields ==null and fetchFields.fetchFields==null and fetchFields.excludeFields==null and fetchFields.otherFields==null">
+                        <include refid="allResult"></include>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.fetchFields!=null">
+                        <if test="fetchFields.fetchFields.hid==true">
+                            `hid`,
+                        </if>
+                        <if test="fetchFields.fetchFields.roomType==true">
+                            `room_type`,
+                        </if>
+                        <if test="fetchFields.fetchFields.maxTenant==true">
+                            `max_tenant`,
+                        </if>
+                        <if test="fetchFields.fetchFields.bedType==true">
+                            `bed_type`,
+                        </if>
+                        <if test="fetchFields.fetchFields.dinnerType==true">
+                            `dinner_type`,
+                        </if>
+                        <if test="fetchFields.fetchFields.charge==true">
+                            `charge`,
+                        </if>
+                        <if test="fetchFields.fetchFields.remain==true">
+                            `remain`,
+                        </if>
+                        <if test="fetchFields.fetchFields.facilities==true">
+                            `facilities`,
+                        </if>
+                        <if test="fetchFields.fetchFields.policy==true">
+                            `policy`,
+                        </if>
+                    </if>
+                    <if test="fetchFields.AllFields==null and fetchFields.excludeFields!=null">
+                        <if test="fetchFields.excludeFields.hid==null">
+                            `hid`,
+                        </if>
+                        <if test="fetchFields.excludeFields.roomType==null">
+                            `room_type`,
+                        </if>
+                        <if test="fetchFields.excludeFields.maxTenant==null">
+                            `max_tenant`,
+                        </if>
+                        <if test="fetchFields.excludeFields.bedType==null">
+                            `bed_type`,
+                        </if>
+                        <if test="fetchFields.excludeFields.dinnerType==null">
+                            `dinner_type`,
+                        </if>
+                        <if test="fetchFields.excludeFields.charge==null">
+                            `charge`,
+                        </if>
+                        <if test="fetchFields.excludeFields.remain==null">
+                            `remain`,
+                        </if>
+                        <if test="fetchFields.excludeFields.facilities==null">
+                            `facilities`,
+                        </if>
+                        <if test="fetchFields.excludeFields.policy==null">
+                            `policy`,
+                        </if>
+                    </if>
+                    <if test="fetchFields.otherFields!=null and fetchFields.otherFields.size>0">
+                        <foreach collection="fetchFields.otherFields" index="index" item="item" separator=",">
+                            `#{item}`
+                        </foreach>
+                    </if>
+                </if>
+            </if>
+            <if test="(_parameter instanceof com.ace.hotel.model.Room$QueryBuilder) == false">
+                <include refid="allResult"></include>
+            </if>
+
+        </trim>
+    </sql>
+
+
+</mapper>

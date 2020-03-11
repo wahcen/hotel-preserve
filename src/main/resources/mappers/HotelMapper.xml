@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ace.hotel.dao.HotelMapper">
+
+    <select id="getAllHotel" resultMap="HotelMap">
+        select * from t_hotel;
+    </select>
+
+    <select id="getHotelById" resultMap="HotelMap">
+        select * from t_hotel where hid=#{hid}
+    </select>
+
+    <select id="getHotelsByAddress" resultMap="HotelMap">
+        select * from t_hotel where address like CONCAT('%',#{address},'%')
+    </select>
+
+    <select id="getHotel" resultMap="HotelMap">
+        select * from t_hotel
+        <trim prefix="where" suffixOverrides="and | or">
+            <if test="address != '' and address != null">
+                address like concat('%',#{address},'%') and
+            </if>
+            <if test="tags != '' and tags != null">
+                tags like concat('%',#{tags},'%') and
+            </if>
+            <if test="score != '' and score != null">
+                score > #{score} and
+            </if>
+            <if test="hid != '' and hid != null">
+                hid=#{hid} and
+            </if>
+            <if test="hotelName != '' and hotelName != null">
+                hotel_name=#{hotelName} and
+            </if>
+            <if test="phone != '' and phone != null">
+                phone=#{phone} and
+            </if>
+            <if test="description != '' and description != null">
+                description=#{description}
+            </if>
+        </trim>
+    </select>
+    <resultMap type="com.ace.hotel.model.Hotel" id="HotelMap">
+        <result property="hid" column="hid"/>
+        <result property="hotelName" column="hotel_name"/>
+        <result property="address" column="address"/>
+        <result property="phone" column="phone"/>
+        <result property="score" column="score"/>
+        <result property="tags" column="tags"/>
+        <result property="description" column="description"/>
+    </resultMap>
+</mapper>

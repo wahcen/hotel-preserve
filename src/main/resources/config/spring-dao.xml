@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--    <context:property-placeholder ignore-resource-not-found="true" location="classpath:config/db.properties"/>-->
+    <!-- 可用以下方式代替上面的读入配置properties文件，且可阅读性更强 -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <array>
+                <value>classpath:config/db.properties</value>
+            </array>
+        </property>
+    </bean>
+    <!--第三方dbcp2连接池-->
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="${jdbc.database.driver}"/>
+        <property name="url" value="${jdbc.database.url}"/>
+        <property name="username" value="${jdbc.database.username}"/>
+        <property name="password" value="${jdbc.database.password}"/>
+        <!--连接池中的最大数据库连接数-->
+        <property name="maxTotal" value="255"/>
+        <!--        <property name="maxActive" value="255"/> dbcp的配置项-->
+        <!--最大等待连接数量-->
+        <property name="maxIdle" value="5"/>
+        <!--最大等待毫秒数-->
+        <property name="maxWaitMillis" value="10000"/>
+        <!--        <property name="maxWait" value="10000"/> dbcp的配置项-->
+    </bean>
+
+    <!--使用mybatis-spring配置-->
+    <!--配置SqlSessionFactoryBean-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:config/mybatis-spring-config.xml"/>
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:mappers/*.xml</value>
+                <value>classpath:mappers/base/*.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--配置MapperScannerConfigurer，让Spring自动扫描mapper-->
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.ace.hotel.dao"/>
+        <!--使得只有使用@Repository注解的Mapper才会被扫描-->
+        <!--        <property name="annotationClass" value="org.springframework.stereotype.Repository"/>-->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+</beans>
+
+        <!--配置SqlSessionTemplate，该配置项不是必须的，它是线程安全类，现在应用不多-->
+        <!--    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">-->
+        <!--        <constructor-arg ref="sqlSessionFactory"/>-->
+        <!--        <constructor-arg value="BATCH"/>-->
+        <!--    </bean>-->
+
+        <!--配置MapperFactoryBean，配置想要实现的Mapper-->
+        <!--    <bean id="userMapperProxy" class="org.mybatis.spring.mapper.MapperFactoryBean">-->
+        <!--        &lt;!&ndash;UserMapper接口将会被扫描为Mapper&ndash;&gt;-->
+        <!--        <property name="mapperInterface" value="mapper.UserMapper"/>-->
+        <!--        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->
+        <!--        &lt;!&ndash; 当同时启用sqlSessionFactory和sqlSessionTemplate时，后者会覆盖前者&ndash;&gt;-->
+        <!--&lt;!&ndash;        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"/>&ndash;&gt;-->
+        <!--    </bean>-->
+
+        <!--JNDI数据源，JavaEE容器提供-->
+        <!--    <bean id="dataSourceJNDI" class="org.springframework.jndi.JndiObjectFactoryBean">-->
+        <!--        <property name="jndiName" value="未配置"/>-->
+        <!--    </bean>-->
+
+        <!--    &lt;!&ndash;简单数据源，spring提供，一般用于测试&ndash;&gt;-->
+        <!--    <bean id="dataSourceSimple" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">-->
+        <!--        <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>-->
+        <!--        <property name="url" value="jdbc:mysql://localhost:3306/testdb?serverTimezone=UTC"/>-->
+        <!--        <property name="username" value="root"/>-->
+        <!--        <property name="password" value="336880"/>-->
+        <!--    </bean>-->
+
+        <!-- 使用jdbcTemplate -->
+        <!--<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">-->
+        <!--<property name="dataSource" ref="dataSource"/>-->
+        <!--</bean>-->
